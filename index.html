@@ -22,26 +22,34 @@
         <header>
             <div class="logo">Ceedi-data</div>
             <nav>
-                <a href="#bundles">Bundles</a>
-                <a href="#features">Features</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
+                <a href="#bundles" data-i18n="nav_bundles">Bundles</a>
+                <a href="#features" data-i18n="nav_features">Features</a>
+                <a href="#services" data-i18n="nav_services">Services</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+                
+                <!-- Language Selector -->
+                <select id="languageSelect" class="language-select" onchange="changeLanguage(this.value)" title="Select Language">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="pt">Português</option>
+                    <option value="ar">العربية</option>
+                    <option value="zu">Zulu</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="ha">Hausa</option>
+                </select>
                 
                 <!-- Theme Toggle -->
-                <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
-                    <div class="theme-toggle-slider">
-                        <span id="themeIcon">🌙</span>
-                    </div>
-                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Toggle Light/Dark Mode" id="themeBtn">🌙</button>
                 
-                <button class="login-btn" onclick="alert('Login feature coming soon!')">Agent Login</button>
+                <button class="login-btn" onclick="alert('Login feature coming soon!')" data-i18n="nav_login">Agent Login</button>
             </nav>
         </header>
 
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Premium Data Bundles<br>At Lightning Speed</h1>
-            <p>Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.</p>
+            <h1 data-i18n="hero_title">Premium Data Bundles<br>At Lightning Speed</h1>
+            <p data-i18n="hero_description">Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.</p>
             
             <div class="network-badges">
                 <div class="network-badge mtn">🟡 MTN Ghana</div>
@@ -53,8 +61,8 @@
         <!-- Bundles Section -->
         <section id="bundles" class="bundles-section">
             <div class="section-header">
-                <h2>Featured Data Bundles</h2>
-                <p style="color: var(--text-secondary); font-size: 1.1rem;">Choose the perfect bundle for your needs</p>
+                <h2 data-i18n="bundles_title">Featured Data Bundles</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="bundles_subtitle">Choose the perfect bundle for your needs</p>
             </div>
 
             <div id="bundlesContainer" class="bundles-grid">
@@ -69,7 +77,7 @@
         <!-- Features Section -->
         <section id="features" class="features-section">
             <div class="section-header">
-                <h2>Why Choose Ceedi-data?</h2>
+                <h2 data-i18n="features_title">Why Choose Ceedi-data?</h2>
             </div>
 
             <div class="features-grid">

@@ -1,7 +1,157 @@
 // Configuration
 const API_URL = 'http://localhost:5000/api'; // Change to your backend URL
 
-// Theme Management
+// Translation Dictionary
+const translations = {
+    en: {
+        nav_bundles: 'Bundles',
+        nav_features: 'Features',
+        nav_services: 'Services',
+        nav_contact: 'Contact',
+        nav_login: 'Agent Login',
+        hero_title: 'Premium Data Bundles<br>At Lightning Speed',
+        hero_description: 'Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.',
+        bundles_title: 'Featured Data Bundles',
+        bundles_subtitle: 'Choose the perfect bundle for your needs',
+        features_title: 'Why Choose Ceedi-data?'
+    },
+    fr: {
+        nav_bundles: 'Forfaits',
+        nav_features: 'Caractéristiques',
+        nav_services: 'Services',
+        nav_contact: 'Contact',
+        nav_login: 'Connexion Agent',
+        hero_title: 'Forfaits de Données Premium<br>À une Vitesse Fulgurante',
+        hero_description: 'Obtenez une livraison instantanée de forfaits de données pour MTN, AirtelTigo et Telecel à des prix imbattables. Économisez jusqu\'à 40% sur chaque achat.',
+        bundles_title: 'Forfaits de Données en Vedette',
+        bundles_subtitle: 'Choisissez le forfait parfait pour vos besoins',
+        features_title: 'Pourquoi choisir Ceedi-data?'
+    },
+    es: {
+        nav_bundles: 'Paquetes',
+        nav_features: 'Características',
+        nav_services: 'Servicios',
+        nav_contact: 'Contacto',
+        nav_login: 'Inicio de Sesión',
+        hero_title: 'Paquetes de Datos Premium<br>A Velocidad de Rayo',
+        hero_description: 'Obtenga entrega instantánea de paquetes de datos para MTN, AirtelTigo y Telecel a precios inmejorable. Ahorre hasta el 40% en cada compra.',
+        bundles_title: 'Paquetes de Datos en Destacado',
+        bundles_subtitle: 'Elige el paquete perfecto para tus necesidades',
+        features_title: '¿Por qué elegir Ceedi-data?'
+    },
+    pt: {
+        nav_bundles: 'Pacotes',
+        nav_features: 'Recursos',
+        nav_services: 'Serviços',
+        nav_contact: 'Contato',
+        nav_login: 'Login do Agente',
+        hero_title: 'Pacotes de Dados Premium<br>Na Velocidade da Luz',
+        hero_description: 'Obtenha entrega instantânea de pacotes de dados para MTN, AirtelTigo e Telecel com preços imbatíveis. Economize até 40% em cada compra.',
+        bundles_title: 'Pacotes de Dados em Destaque',
+        bundles_subtitle: 'Escolha o pacote perfeito para suas necessidades',
+        features_title: 'Por que escolher Ceedi-data?'
+    },
+    ar: {
+        nav_bundles: 'الحزم',
+        nav_features: 'الميزات',
+        nav_services: 'الخدمات',
+        nav_contact: 'اتصل',
+        nav_login: 'دخول الوكيل',
+        hero_title: 'حزم بيانات متميزة<br>بسرعة البرق',
+        hero_description: 'احصل على تسليم فوري لحزم البيانات لـ MTN و AirtelTigo و Telecel بأسعار لا تُقبل المنافسة. توفير يصل إلى 40% على كل عملية شراء.',
+        bundles_title: 'حزم البيانات المميزة',
+        bundles_subtitle: 'اختر الحزمة المثالية لاحتياجاتك',
+        features_title: 'لماذا تختار Ceedi-data؟'
+    },
+    zu: {
+        nav_bundles: 'Ama-Bundle',
+        nav_features: 'Izici',
+        nav_services: 'Izinsizakalo',
+        nav_contact: 'Xhumana Nathi',
+        nav_login: 'Ukungena kwe-Agent',
+        hero_title: 'Ama-Bundle Adata Apremium<br>Ngesivinini Somkhanyeli',
+        hero_description: 'Thola ukuhlukunyelwa okushesha kwa-data bundles para MTN, AirtelTigo no-Telecel ngamanani angakuvikeli. Onga ngalingu-40% ekubeni kusekelwe.',
+        bundles_title: 'Ama-Bundle Adata Akhethiwe',
+        bundles_subtitle: 'Khetha i-bundle efanele ngezidingo zakho',
+        features_title: 'Ngubani ukuthi Ceedi-data?'
+    },
+    yo: {
+        nav_bundles: 'Àwọṣẹ',
+        nav_features: 'Àwọn ẹjẹ́ àkírí',
+        nav_services: 'Àwọn ìṣẹ́',
+        nav_contact: 'Ränṣọ pẹ̀lú wa',
+        nav_login: 'Wọlé Aláàjọ',
+        hero_title: 'Àwon Bundle Data Ológ<br>Lọ́rọ̀ Ìyara',
+        hero_description: 'Gba fásífásì àwon bundle data fun MTN, AirtelTigo ati Telecel ni awon anfani ti ko nibaramu. Pàkúté tilẹ̀ 40% lori ọrẹ kọ̀ọ̀kan.',
+        bundles_title: 'Àwọn Bundle Data To Yan',
+        bundles_subtitle: 'Yan bundle to dara julo fun awon ikohun rẹ',
+        features_title: 'Ìdí ta a yẹ kó yan Ceedi-data?'
+    },
+    ha: {
+        nav_bundles: 'Kunsuri',
+        nav_features: 'Sifofu',
+        nav_services: 'Ayyukan',
+        nav_contact: 'Tuntubo',
+        nav_login: "Shiga Wakili",
+        hero_title: 'Kunsuri Data Mafi Kyau<br>Da Sauri Walƙiya',
+        hero_description: 'Sami karɓa jimlace da sauri na kunsuri data don MTN, AirtelTigo da Telecel a farashi da ba za su iya dace ba. Caji har zuwa 40% a kowane saye.',
+        bundles_title: 'Kunsuri Data da aka Fifida',
+        bundles_subtitle: 'Zaɓi kunsuri mafi dacewa da bukatsunka',
+        features_title: 'Me ya sa za ka zaɓi Ceedi-data?'
+    }
+};
+
+// Detect user's browser language
+function detectLanguage() {
+    const saved = localStorage.getItem('selectedLanguage');
+    if (saved) return saved;
+    
+    const browserLang = navigator.language.split('-')[0];
+    const supportedLangs = Object.keys(translations);
+    
+    return supportedLangs.includes(browserLang) ? browserLang : 'en';
+}
+
+// Initialize language on page load
+let currentLanguage = detectLanguage();
+
+function initLanguage() {
+    const select = document.getElementById('languageSelect');
+    if (select) {
+        select.value = currentLanguage;
+    }
+    applyTranslations();
+}
+
+// Apply translations to page
+function applyTranslations() {
+    const langData = translations[currentLanguage] || translations.en;
+    
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (langData[key]) {
+            element.innerHTML = langData[key];
+        }
+    });
+    
+    // Set RTL for Arabic
+    if (currentLanguage === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.body.style.direction = 'rtl';
+    } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.body.style.direction = 'ltr';
+    }
+}
+
+// Change language
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('selectedLanguage', lang);
+    applyTranslations();
+}
+
+// ===== THEME MANAGEMENT =====
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -18,14 +168,24 @@ function toggleTheme() {
 }
 
 function updateThemeIcon(theme) {
-    const icon = document.getElementById('themeIcon');
-    icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    const btn = document.getElementById('themeBtn');
+    if (btn) {
+        btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
 }
 
-// Initialize theme on page load
-initTheme();
+// Initialize on page load
 
-// Create floating particles dynamically
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    initLanguage();
+    createParticles();
+    fetchBundles();
+    setupSmoothScroll();
+});
+
+// ===== PARTICLES & UI =====
 function createParticles() {
     const bg = document.querySelector('.animated-bg');
     const colors = ['rgba(0, 240, 255, 0.4)', 'rgba(184, 41, 255, 0.3)', 'rgba(255, 215, 0, 0.3)'];
@@ -44,23 +204,22 @@ function createParticles() {
     }
 }
 
-createParticles();
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
-});
+}
 
-// Fetch bundles from API
+// ===== BUNDLES MANAGEMENT =====
 async function fetchBundles() {
     try {
         const response = await fetch(`${API_URL}/bundles`);
@@ -226,8 +385,3 @@ async function purchaseBundle(bundleId, bundleName, price) {
         btn.textContent = 'Buy Now';
     }
 }
-
-// Load bundles when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    fetchBundles();
-});
