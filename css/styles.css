@@ -564,6 +564,119 @@ nav a:hover::after {
     line-height: 1.6;
 }
 
+/* Services Section */
+.services-section {
+    padding: 6rem 5%;
+    margin-top: 4rem;
+}
+
+:root[data-theme="light"] .services-section {
+    background: linear-gradient(180deg, transparent, rgba(184, 41, 255, 0.05), transparent);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.service-card {
+    padding: 2.5rem;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.6s ease-out forwards;
+}
+
+.service-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.service-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.service-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-card:hover {
+    border-color: var(--primary-cyan);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
+}
+
+.service-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--primary-cyan);
+}
+
+.service-card p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.service-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+}
+
+.service-features span {
+    color: var(--success-green);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.service-btn {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Outfit', sans-serif;
+}
+
+.service-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 240, 255, 0.3);
+}
+
+.service-btn:active {
+    transform: scale(0.98);
+}
+
 /* Footer */
 footer {
     padding: 3rem 5%;
@@ -607,6 +720,10 @@ footer p {
     }
 
     .bundles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .services-grid {
         grid-template-columns: 1fr;
     }
 
