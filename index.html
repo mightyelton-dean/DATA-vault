@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceedi-data - Premium Data Bundle Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 240, 255, var(--orb-opacity)), transparent); top: 10%; left: 20%;"></div>
+        <div class="glow-orb" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(184, 41, 255, var(--orb-opacity)), transparent); top: 50%; right: 10%; animation-delay: -10s;"></div>
+        <div class="glow-orb" style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(255, 215, 0, var(--orb-opacity)), transparent); bottom: 20%; left: 40%; animation-delay: -15s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="logo">Ceedi-data</div>
+            <nav>
+                <a href="#bundles">Bundles</a>
+                <a href="#features">Features</a>
+                <a href="#contact">Contact</a>
+                
+                <!-- Theme Toggle -->
+                <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                    <div class="theme-toggle-slider">
+                        <span id="themeIcon">🌙</span>
+                    </div>
+                </div>
+                
+                <button class="login-btn" onclick="alert('Login feature coming soon!')">Agent Login</button>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Premium Data Bundles<br>At Lightning Speed</h1>
+            <p>Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.</p>
+            
+            <div class="network-badges">
+                <div class="network-badge mtn">🟡 MTN Ghana</div>
+                <div class="network-badge">📱 AirtelTigo</div>
+                <div class="network-badge">🔵 Telecel</div>
+            </div>
+        </section>
+
+        <!-- Bundles Section -->
+        <section id="bundles" class="bundles-section">
+            <div class="section-header">
+                <h2>Featured Data Bundles</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Choose the perfect bundle for your needs</p>
+            </div>
+
+            <div id="bundlesContainer" class="bundles-grid">
+                <!-- Loading state -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">Loading bundles...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="section-header">
+                <h2>Why Choose Ceedi-data?</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Delivery</h3>
+                    <p>Get your data bundles delivered to your phone within 1-5 minutes, guaranteed.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Prices</h3>
+                    <p>Save up to 40% compared to buying directly from network providers.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Secure</h3>
+                    <p>Your transactions are encrypted and protected with bank-level security.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always available to help you.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎁</div>
+                    <h3>Loyalty Rewards</h3>
+                    <p>Earn points on every purchase and get exclusive bonuses.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Agent Program</h3>
+                    <p>Join our reseller program and earn commissions on every sale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <p>&copy; 2025 Ceedi-data. All rights reserved.</p>
+            <p style="margin-top: 1rem;">Contact: support@ceedi-data.com | +233 XX XXX XXXX</p>
+            <div class="social-links">
+                <a href="#" title="WhatsApp">💬</a>
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Instagram">📷</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
