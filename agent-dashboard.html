@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceedi-data - Agent Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 240, 255, var(--orb-opacity)), transparent); top: 10%; left: 20%;"></div>
+        <div class="glow-orb" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(184, 41, 255, var(--orb-opacity)), transparent); top: 50%; right: 10%; animation-delay: -10s;"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-logo">Ceedi-data</div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" onclick="switchDashboardView('dashboard')">
+                    📊 Dashboard
+                </a>
+                <a href="#sales" class="nav-item" onclick="switchDashboardView('sales')">
+                    💰 Sales & Commissions
+                </a>
+                <a href="#clients" class="nav-item" onclick="switchDashboardView('clients')">
+                    👥 My Clients
+                </a>
+                <a href="#profile" class="nav-item" onclick="switchDashboardView('profile')">
+                    ⚙️ Profile Settings
+                </a>
+                <a href="#" class="nav-item" onclick="logoutAgent(event)" style="color: #ff4444;">
+                    🚪 Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <h1>Agent Dashboard</h1>
+                <div class="header-controls">
+                    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+                    <div class="agent-info">
+                        <span id="agentName">Agent</span>
+                        <span id="agentStatus" class="status-badge">Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard View -->
+            <section id="dashboard" class="dashboard-view active">
+                <div class="hero-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">💵</div>
+                        <div class="stat-content">
+                            <p>Total Commission</p>
+                            <h3 id="totalCommission">GH₵ 0.00</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-content">
+                            <p>Total Sales</p>
+                            <h3 id="totalSales">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <p>Active Clients</p>
+                            <h3 id="activeClients">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-content">
+                            <p>This Month</p>
+                            <h3 id="monthlyEarnings">GH₵ 0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="chart-card">
+                        <h3>Recent Transactions</h3>
+                        <table id="recentTransactions">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Bundle</th>
+                                    <th>Amount</th>
+                                    <th>Commission</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                        No transactions yet. Start selling!
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Commission Breakdown</h3>
+                        <div class="commission-breakdown">
+                            <div class="breakdown-item">
+                                <span>Data Bundles (5%)</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Legal Docs (3%)</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Agent SIM (7%)</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sales View -->
+            <section id="sales" class="dashboard-view">
+                <div class="card">
+                    <h2>Sales & Commissions</h2>
+                    <div class="sales-content">
+                        <div class="sales-stat">
+                            <p>Total Sales</p>
+                            <h3 id="salesCount">0 bundles</h3>
+                        </div>
+                        <div class="sales-stat">
+                            <p>Total Revenue</p>
+                            <h3 id="salesRevenue">GH₵ 0.00</h3>
+                        </div>
+                        <div class="sales-stat">
+                            <p>Total Commission</p>
+                            <h3 id="salesCommission">GH₵ 0.00</h3>
+                        </div>
+                        <div class="sales-stat">
+                            <p>Pending Payout</p>
+                            <h3 id="pendingPayout">GH₵ 0.00</h3>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Commission Rate: 5% per bundle sold</h3>
+                    <p style="color: var(--text-secondary);">
+                        Share your referral link with customers and earn 5% commission on every data bundle they purchase through your link.
+                    </p>
+
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 240, 255, 0.1); border-radius: 10px; border: 1px solid var(--border-color);">
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Your Referral Code:</p>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="referralCode" readonly style="flex: 1; padding: 0.8rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+                            <button class="modal-btn" onclick="copyReferralCode()" style="padding: 0.8rem 1.5rem;">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clients View -->
+            <section id="clients" class="dashboard-view">
+                <div class="card">
+                    <h2>My Clients</h2>
+                    <table id="clientsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Total Purchases</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                    No clients yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Profile View -->
+            <section id="profile" class="dashboard-view">
+                <div class="card">
+                    <h2>Profile Settings</h2>
+                    <form id="profileForm" onsubmit="updateAgentProfile(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profileEmail" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="profilePhone">
+                        </div>
+                        <div class="form-group">
+                            <label>MTN SIM Number</label>
+                            <input type="text" id="profileMtnSim" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Bank Account</label>
+                            <input type="text" id="profileBank" disabled>
+                        </div>
+                        <button type="submit" class="modal-btn">Update Profile</button>
+                    </form>
+
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <h3 style="color: #ff4444; margin-bottom: 1rem;">Danger Zone</h3>
+                        <button class="modal-btn" style="background: #ff4444;" onclick="deleteAccount()">
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

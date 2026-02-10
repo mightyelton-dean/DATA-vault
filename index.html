@@ -42,7 +42,7 @@
                 <!-- Theme Toggle -->
                 <button class="theme-btn" onclick="toggleTheme()" title="Toggle Light/Dark Mode" id="themeBtn">🌙</button>
                 
-                <button class="login-btn" onclick="alert('Login feature coming soon!')" data-i18n="nav_login">Agent Login</button>
+                <button class="login-btn" onclick="openLoginModal()" data-i18n="nav_login">Agent Login</button>
             </nav>
         </header>
 
@@ -179,6 +179,47 @@
                 <a href="#" title="Instagram">📷</a>
             </div>
         </footer>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeLoginModal()">&times;</span>
+                <h2>Agent Login</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <input type="email" id="loginEmail" placeholder="Email Address" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit" class="modal-btn">Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+                    Don't have an account? <a href="#" onclick="switchToRegister(event)" style="color: var(--primary-cyan); cursor: pointer;">Register here</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Registration Modal -->
+        <div id="registrationModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeRegistrationModal()">&times;</span>
+                <h2>Become an Agent</h2>
+                <form id="registrationForm" onsubmit="handleRegistration(event)">
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                    <input type="email" id="regEmail" placeholder="Email Address" required>
+                    <input type="tel" id="regPhone" placeholder="Phone Number" required>
+                    <input type="text" id="regMtnSim" placeholder="MTN SIM Number" required>
+                    <input type="text" id="regBank" placeholder="Bank Account Number" required>
+                    <input type="password" id="regPassword" placeholder="Password (min 6 chars)" required minlength="6">
+                    <input type="password" id="regPassword2" placeholder="Confirm Password" required>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0;">
+                        <input type="checkbox" id="regTerms" required>
+                        <span>I agree to Terms & Conditions</span>
+                    </label>
+                    <button type="submit" class="modal-btn">Register as Agent</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+                    Already have an account? <a href="#" onclick="switchToLogin(event)" style="color: var(--primary-cyan); cursor: pointer;">Login here</a>
+                </p>
+            </div>
+        </div>
     </div>
 
     <script src="js/script.js"></script>

@@ -151,6 +151,171 @@ function changeLanguage(lang) {
     applyTranslations();
 }
 
+// ===== AUTHENTICATION & MODALS =====
+function openLoginModal() {
+    document.getElementById('loginModal').classList.add('show');
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('show');
+}
+
+function openRegistrationModal() {
+    document.getElementById('registrationModal').classList.add('show');
+}
+
+function closeRegistrationModal() {
+    document.getElementById('registrationModal').classList.remove('show');
+}
+
+function switchToRegister(e) {
+    e.preventDefault();
+    closeLoginModal();
+    openRegistrationModal();
+}
+
+function switchToLogin(e) {
+    e.preventDefault();
+    closeRegistrationModal();
+    openLoginModal();
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const loginModal = document.getElementById('loginModal');
+    const regModal = document.getElementById('registrationModal');
+    
+    if (event.target === loginModal) {
+        closeLoginModal();
+    }
+    if (event.target === regModal) {
+        closeRegistrationModal();
+    }
+}
+
+// Handle Login
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    // Validate
+    if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    // Send to backend
+    loginAgent(email, password);
+}
+
+// Handle Registration
+function handleRegistration(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const phone = document.getElementById('regPhone').value;
+    const mtnSim = document.getElementById('regMtnSim').value;
+    const bank = document.getElementById('regBank').value;
+    const password = document.getElementById('regPassword').value;
+    const password2 = document.getElementById('regPassword2').value;
+    const terms = document.getElementById('regTerms').checked;
+    
+    // Validation
+    if (!name || !email || !phone || !mtnSim || !bank || !password || !password2) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    if (password !== password2) {
+        alert('Passwords do not match');
+        return;
+    }
+    
+    if (!terms) {
+        alert('Please accept Terms & Conditions');
+        return;
+    }
+    
+    // Send to backend
+    registerAgent(name, email, phone, mtnSim, bank, password);
+}
+
+// Register Agent API Call
+async function registerAgent(name, email, phone, mtnSim, bank, password) {
+    try {
+        const response = await fetch(`${API_URL}/agents/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                phone,
+                mtnSim,
+                bankAccount: bank,
+                password
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Registration successful! Please check your email to verify.');
+            closeRegistrationModal();
+            // Clear form
+            document.getElementById('registrationForm').reset();
+        } else {
+            alert('Registration failed: ' + (data.message || 'Try again'));
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        alert('Network error. Please try again.');
+    }
+}
+
+// Login Agent API Call
+async function loginAgent(email, password) {
+    try {
+        const response = await fetch(`${API_URL}/agents/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Save token and agent info
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('agentData', JSON.stringify(data.agent));
+            
+            alert('Login successful!');
+            closeLoginModal();
+            // Clear form
+            document.getElementById('loginForm').reset();
+            
+            // Redirect to agent dashboard
+            setTimeout(() => {
+                window.location.href = 'agent-dashboard.html';
+            }, 500);
+        } else {
+            alert('Login failed: ' + (data.message || 'Invalid credentials'));
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Network error. Please try again.');
+    }
+}
+
 // ===== THEME MANAGEMENT =====
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
