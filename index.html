@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceedi-data - Premium Data Bundle Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,7 +21,8 @@
         <!-- Header -->
         <header>
             <div class="logo">Ceedi-data</div>
-            <nav>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation">☰</button>
+            <nav id="mainNav">
                 <a href="#bundles" data-i18n="nav_bundles">Bundles</a>
                 <a href="#features" data-i18n="nav_features">Features</a>
                 <a href="#services" data-i18n="nav_services">Services</a>
@@ -48,13 +49,13 @@
 
         <!-- Hero Section -->
         <section class="hero">
-            <h1 data-i18n="hero_title"><i>Data bundles</i><br> - All Network - Non Expiry.</h1>
+            <h1 data-i18n="hero_title">Affordable Data Bundles<br>All Networks • Non-Expiry</h1>
             <p data-i18n="hero_description">Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.</p>
             
             <div class="network-badges">
                 <div class="network-badge mtn">🟡 MTN Ghana</div>
-                <div class="network-badge">📱 AirtelTigo</div>
-                <div class="network-badge">🔵 Telecel</div>
+                <div class="network-badge airteltigo">📱 AirtelTigo</div>
+                <div class="network-badge telecel">🔵 Telecel</div>
             </div>
         </section>
 

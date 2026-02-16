@@ -9,7 +9,7 @@ const translations = {
         nav_services: 'Services',
         nav_contact: 'Contact',
         nav_login: 'Agent Login',
-        hero_title: 'Premium Data Bundles<br>At Lightning Speed',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Get instant data delivery for MTN, AirtelTigo & Telecel at unbeatable prices. Save up to 40% on every purchase.',
         bundles_title: 'Featured Data Bundles',
         bundles_subtitle: 'Choose the perfect bundle for your needs',
@@ -21,7 +21,7 @@ const translations = {
         nav_services: 'Services',
         nav_contact: 'Contact',
         nav_login: 'Connexion Agent',
-        hero_title: 'Forfaits de Données Premium<br>À une Vitesse Fulgurante',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Obtenez une livraison instantanée de forfaits de données pour MTN, AirtelTigo et Telecel à des prix imbattables. Économisez jusqu\'à 40% sur chaque achat.',
         bundles_title: 'Forfaits de Données en Vedette',
         bundles_subtitle: 'Choisissez le forfait parfait pour vos besoins',
@@ -33,7 +33,7 @@ const translations = {
         nav_services: 'Servicios',
         nav_contact: 'Contacto',
         nav_login: 'Inicio de Sesión',
-        hero_title: 'Paquetes de Datos Premium<br>A Velocidad de Rayo',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Obtenga entrega instantánea de paquetes de datos para MTN, AirtelTigo y Telecel a precios inmejorable. Ahorre hasta el 40% en cada compra.',
         bundles_title: 'Paquetes de Datos en Destacado',
         bundles_subtitle: 'Elige el paquete perfecto para tus necesidades',
@@ -45,7 +45,7 @@ const translations = {
         nav_services: 'Serviços',
         nav_contact: 'Contato',
         nav_login: 'Login do Agente',
-        hero_title: 'Pacotes de Dados Premium<br>Na Velocidade da Luz',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Obtenha entrega instantânea de pacotes de dados para MTN, AirtelTigo e Telecel com preços imbatíveis. Economize até 40% em cada compra.',
         bundles_title: 'Pacotes de Dados em Destaque',
         bundles_subtitle: 'Escolha o pacote perfeito para suas necessidades',
@@ -57,7 +57,7 @@ const translations = {
         nav_services: 'الخدمات',
         nav_contact: 'اتصل',
         nav_login: 'دخول الوكيل',
-        hero_title: 'حزم بيانات متميزة<br>بسرعة البرق',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'احصل على تسليم فوري لحزم البيانات لـ MTN و AirtelTigo و Telecel بأسعار لا تُقبل المنافسة. توفير يصل إلى 40% على كل عملية شراء.',
         bundles_title: 'حزم البيانات المميزة',
         bundles_subtitle: 'اختر الحزمة المثالية لاحتياجاتك',
@@ -69,7 +69,7 @@ const translations = {
         nav_services: 'Izinsizakalo',
         nav_contact: 'Xhumana Nathi',
         nav_login: 'Ukungena kwe-Agent',
-        hero_title: 'Ama-Bundle Adata Apremium<br>Ngesivinini Somkhanyeli',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Thola ukuhlukunyelwa okushesha kwa-data bundles para MTN, AirtelTigo no-Telecel ngamanani angakuvikeli. Onga ngalingu-40% ekubeni kusekelwe.',
         bundles_title: 'Ama-Bundle Adata Akhethiwe',
         bundles_subtitle: 'Khetha i-bundle efanele ngezidingo zakho',
@@ -81,7 +81,7 @@ const translations = {
         nav_services: 'Àwọn ìṣẹ́',
         nav_contact: 'Ränṣọ pẹ̀lú wa',
         nav_login: 'Wọlé Aláàjọ',
-        hero_title: 'Àwon Bundle Data Ológ<br>Lọ́rọ̀ Ìyara',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Gba fásífásì àwon bundle data fun MTN, AirtelTigo ati Telecel ni awon anfani ti ko nibaramu. Pàkúté tilẹ̀ 40% lori ọrẹ kọ̀ọ̀kan.',
         bundles_title: 'Àwọn Bundle Data To Yan',
         bundles_subtitle: 'Yan bundle to dara julo fun awon ikohun rẹ',
@@ -93,7 +93,7 @@ const translations = {
         nav_services: 'Ayyukan',
         nav_contact: 'Tuntubo',
         nav_login: "Shiga Wakili",
-        hero_title: 'Kunsuri Data Mafi Kyau<br>Da Sauri Walƙiya',
+        hero_title: 'Affordable Data Bundles<br>All Networks • Non-Expiry',
         hero_description: 'Sami karɓa jimlace da sauri na kunsuri data don MTN, AirtelTigo da Telecel a farashi da ba za su iya dace ba. Caji har zuwa 40% a kowane saye.',
         bundles_title: 'Kunsuri Data da aka Fifida',
         bundles_subtitle: 'Zaɓi kunsuri mafi dacewa da bukatsunka',
@@ -348,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     fetchBundles();
     setupSmoothScroll();
+    setupMobileNav();
 });
 
 // ===== PARTICLES & UI =====
@@ -381,6 +382,38 @@ function setupSmoothScroll() {
                 });
             }
         });
+    });
+}
+
+
+function setupMobileNav() {
+    const navToggle = document.getElementById('navToggle');
+    const nav = document.getElementById('mainNav');
+
+    if (!navToggle || !nav) return;
+
+    navToggle.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('show');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        navToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                nav.classList.remove('show');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.textContent = '☰';
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 992) {
+            nav.classList.remove('show');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.textContent = '☰';
+        }
     });
 }
 
