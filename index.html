@@ -125,6 +125,7 @@
             <div class="section-header">
                 <h2>Our Services</h2>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;">Everything you need in one platform</p>
+                <p class="swipe-hint">Swipe left/right to explore services on mobile</p>
             </div>
 
             <div class="services-grid">
@@ -166,6 +167,57 @@
                     </div>
                     <button class="service-btn" onclick="alert('MTN Agent SIM registration coming soon!')">Join Now</button>
                 </div>
+            </div>
+        </section>
+
+        <!-- Utility Tools Section -->
+        <section class="tools-section">
+            <div class="section-header">
+                <h2>Agent Utility Tools</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Extra features requested by clients for faster operations</p>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>📦 Bulk Order Upload</h3>
+                    <p>Upload many customer requests at once with CSV templates for faster daily processing.</p>
+                    <button class="service-btn" onclick="alert('Bulk upload feature will be enabled with backend integration.')">Open Upload</button>
+                </div>
+                <div class="tool-card">
+                    <h3>📥 Download Order Template</h3>
+                    <p>Download the official file template to avoid formatting errors and failed submissions.</p>
+                    <button class="service-btn" onclick="alert('Template download will be enabled with backend integration.')">Download Template</button>
+                </div>
+                <div class="tool-card">
+                    <h3>🛰️ Network Delivery Status</h3>
+                    <p>Check MTN, AirtelTigo and Telecel delivery windows before placing orders for customers.</p>
+                    <button class="service-btn" onclick="alert('Live network status will be enabled after API connection.')">Check Status</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Common questions from agents and customers</p>
+            </div>
+            <div class="faq-list">
+                <details class="faq-item" open>
+                    <summary>How fast is bundle delivery?</summary>
+                    <p>Most requests are delivered in 1–5 minutes. During network peak times, it can take a bit longer.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Can I place orders for any network?</summary>
+                    <p>Yes. MTN, AirtelTigo and Telecel are supported depending on current network availability.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How are agent commissions calculated?</summary>
+                    <p>Commissions are calculated per successful sale and reflected in your agent dashboard wallet.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Will prices update automatically from supplier API?</summary>
+                    <p>Yes. Once backend telecom API integration is enabled, prices can auto-sync with your configured markup.</p>
+                </details>
             </div>
         </section>
 

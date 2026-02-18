@@ -722,6 +722,76 @@ nav a:hover::after {
     transform: scale(0.98);
 }
 
+
+.swipe-hint {
+    display: none;
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Utility Tools Section */
+.tools-section,
+.faq-section {
+    padding: 4rem 5%;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tool-card {
+    padding: 1.7rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    backdrop-filter: blur(8px);
+}
+
+.tool-card h3 {
+    color: var(--primary-cyan);
+    font-size: 1.25rem;
+}
+
+.tool-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.faq-list {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+}
+
+.faq-item summary {
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.faq-item p {
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
 /* Footer */
 footer {
     padding: 3rem 5%;
@@ -856,33 +926,54 @@ footer p {
         line-height: 1.25;
     }
 
-    nav {
-        gap: 1.1rem;
-    }
-
-    .login-btn {
-        padding: 0.6rem 1.3rem;
-    }
-}
-
-@media (max-width: 992px) {
-    header {
+    .network-badges {
         flex-direction: column;
         align-items: stretch;
     }
 
     .bundles-grid,
-    .features-grid,
-    .services-grid {
+    .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    .swipe-hint {
+        display: block;
+    }
+
+    .services-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 0.9rem;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .services-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .services-grid::-webkit-scrollbar-thumb {
+        background: rgba(0, 240, 255, 0.35);
+        border-radius: 999px;
+    }
+
+    .service-card {
+        flex: 0 0 84%;
+        max-width: 84%;
+        scroll-snap-align: start;
     }
 
     .bundle-card,
     .feature-card,
-    .service-card {
+    .service-card,
+    .tool-card {
         padding: 1.25rem;
     }
-  
+
+    .faq-item {
+        padding: 0.9rem;
+    }
 
     .section-header {
         margin-bottom: 2rem;
@@ -928,6 +1019,11 @@ footer p {
     .network-badge {
         width: 100%;
         text-align: center;
+    }
+
+    .service-card {
+        flex-basis: 90%;
+        max-width: 90%;
     }
 }
 
