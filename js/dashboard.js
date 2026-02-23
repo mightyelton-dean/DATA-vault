@@ -1,287 +1,409 @@
 // 👇 Change to your Railway URL after deploying
 const API_URL = 'http://localhost:5000/api';
 
-// Dashboard Script
-const BUNDLE_PRICES = [
-    { size: '1 GB', price: 4.2 },
-    { size: '2 GB', price: 8.4 },
-    { size: '3 GB', price: 12.6 },
-    { size: '4 GB', price: 16.8 },
-    { size: '5 GB', price: 20.5 },
-    { size: '6 GB', price: 26.0 },
-    { size: '7 GB', price: 29.0 },
-    { size: '8 GB', price: 33.0 },
-    { size: '10 GB', price: 39.9 },
-    { size: '15 GB', price: 58.0 },
-    { size: '20 GB', price: 78.0 },
-    { size: '25 GB', price: 98.0 },
-    { size: '30 GB', price: 116.0 },
-    { size: '40 GB', price: 154.0 },
-    { size: '50 GB', price: 193.0 },
-    { size: '100 GB', price: 385.0 }
-];
+// ─── Bundle prices per network ────────────────────────────────
+const BUNDLE_PRICES = {
+  'MTN': [
+    { size: '1 GB',   price: 4.20  },
+    { size: '2 GB',   price: 8.40  },
+    { size: '3 GB',   price: 12.60 },
+    { size: '4 GB',   price: 16.80 },
+    { size: '5 GB',   price: 20.50 },
+    { size: '6 GB',   price: 26.00 },
+    { size: '7 GB',   price: 29.00 },
+    { size: '8 GB',   price: 33.00 },
+    { size: '10 GB',  price: 39.90 },
+    { size: '15 GB',  price: 58.00 },
+    { size: '20 GB',  price: 78.00 },
+    { size: '25 GB',  price: 98.00 },
+    { size: '30 GB',  price: 116.00 },
+    { size: '40 GB',  price: 154.00 },
+    { size: '50 GB',  price: 193.00 },
+    { size: '100 GB', price: 385.00 }
+  ],
+  'AIRTELTIGO ISHARE': [
+    { size: '1 GB',  price: 3.50  },
+    { size: '2 GB',  price: 6.80  },
+    { size: '3 GB',  price: 10.00 },
+    { size: '5 GB',  price: 15.00 },
+    { size: '10 GB', price: 28.00 },
+    { size: '15 GB', price: 40.00 },
+    { size: '20 GB', price: 52.00 },
+    { size: '30 GB', price: 75.00 },
+    { size: '50 GB', price: 120.00 }
+  ],
+  'AIRTELTIGO BIGTIME': [
+    { size: '1 GB',  price: 4.00  },
+    { size: '2 GB',  price: 7.50  },
+    { size: '3 GB',  price: 11.00 },
+    { size: '5 GB',  price: 17.00 },
+    { size: '10 GB', price: 32.00 },
+    { size: '20 GB', price: 60.00 },
+    { size: '50 GB', price: 140.00 }
+  ],
+  'TELECEL': [
+    { size: '1 GB',  price: 4.00  },
+    { size: '2 GB',  price: 7.80  },
+    { size: '3 GB',  price: 11.50 },
+    { size: '5 GB',  price: 16.00 },
+    { size: '10 GB', price: 30.00 },
+    { size: '15 GB', price: 43.00 },
+    { size: '20 GB', price: 55.00 },
+    { size: '50 GB', price: 130.00 }
+  ]
+};
 
+let activeNetwork = 'MTN';
+
+// ─── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    checkAgentAuth();
-    initTheme();
-    renderBundleCards();
-    wireNetworkTabs();
-    loadAgentData();
+  checkAgentAuth();
+  initTheme();
+  renderBundleCards(activeNetwork);
+  wireNetworkTabs();
+  loadAgentData();
+  checkPaymentReturn();
 });
 
+// ─── AUTH CHECK + NAME FIX ────────────────────────────────────
 function checkAgentAuth() {
-    const token = localStorage.getItem('authToken');
-    const agentData = localStorage.getItem('agentData');
+  const token = localStorage.getItem('authToken');
+  const agentData = localStorage.getItem('agentData');
 
-    if (!token || !agentData) {
-        window.location.href = 'index.html';
-        return;
-    }
+  if (!token || !agentData) {
+    window.location.href = 'index.html';
+    return;
+  }
 
-    const agent = JSON.parse(agentData);
-    safeText('agentName', agent.name || 'Agent');
+  const agent = JSON.parse(agentData);
+
+  // Show agent name in sidebar (replaces "Justice Enterprise")
+  safeText('sidebarAgentName', agent.name  || 'Agent');
+  safeText('sidebarAgentEmail', agent.email || '');
+  safeText('agentName', agent.name || 'Agent');
 }
 
-function safeText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-}
-
-function safeValue(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.value = value;
-}
-
-function renderBundleCards() {
-    const grid = document.getElementById('bundleGrid');
-    if (!grid) return;
-
-    grid.innerHTML = BUNDLE_PRICES.map(item => `
-        <article class="bundle-card">
-            <span class="bundle-network">● MTN</span>
-            <div class="bundle-size">${item.size}</div>
-            <div class="bundle-price">GH₵${item.price.toFixed(2)}</div>
-            <div class="bundle-sub">One-time payment</div>
-            <button class="buy-btn">🛒 Add to Cart</button>
-            <button class="pay-btn">💳 Pay with Paystack</button>
-        </article>
-    `).join('');
-}
-
+// ─── NETWORK TABS ─────────────────────────────────────────────
 function wireNetworkTabs() {
-    document.querySelectorAll('.network-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.network-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-        });
+  document.querySelectorAll('.network-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.network-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeNetwork = tab.textContent.trim().toUpperCase();
+      renderBundleCards(activeNetwork);
     });
+  });
 }
 
-async function loadAgentData() {
+// ─── RENDER BUNDLE CARDS ──────────────────────────────────────
+function renderBundleCards(network) {
+  const grid = document.getElementById('bundleGrid');
+  if (!grid) return;
+
+  const bundles = BUNDLE_PRICES[network] || [];
+
+  if (bundles.length === 0) {
+    grid.innerHTML = `<p style="color:#8f9db2;padding:1rem;">No bundles for ${network}.</p>`;
+    return;
+  }
+
+  const networkMeta = {
+    'MTN':                { label: '● MTN',        color: '#f7b500' },
+    'AIRTELTIGO ISHARE':  { label: '● AT iShare',  color: '#20b7ff' },
+    'AIRTELTIGO BIGTIME': { label: '● AT BigTime', color: '#20b7ff' },
+    'TELECEL':            { label: '● Telecel',    color: '#ff6b6b' }
+  };
+  const meta = networkMeta[network] || { label: network, color: '#aaa' };
+
+  grid.innerHTML = bundles.map((item) => `
+    <article class="bundle-card">
+      <span class="bundle-network" style="color:${meta.color};border-color:${meta.color}40;">
+        ${meta.label}
+      </span>
+      <div class="bundle-size">${item.size}</div>
+      <div class="bundle-price">GH&#8373;${item.price.toFixed(2)}</div>
+      <div class="bundle-sub">One-time payment</div>
+      <button class="buy-btn" onclick="openOrderModal('${network}','${item.size}',${item.price})">
+        🛒 Buy Now
+      </button>
+    </article>
+  `).join('');
+}
+
+// ─── ORDER MODAL ──────────────────────────────────────────────
+function openOrderModal(network, size, price) {
+  const old = document.getElementById('orderModal');
+  if (old) old.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'orderModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:9999;';
+
+  modal.innerHTML = `
+    <div style="background:#111620;border:1px solid #2eb8ff;border-radius:14px;padding:1.8rem;width:100%;max-width:420px;position:relative;font-family:Poppins,sans-serif;color:#dce3ef;">
+      <button onclick="document.getElementById('orderModal').remove()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:#8f9db2;font-size:1.4rem;cursor:pointer;">✕</button>
+      <h3 style="margin:0 0 0.3rem;font-size:1.2rem;color:#20b7ff;">Place Order</h3>
+      <p style="margin:0 0 1.2rem;color:#8f9db2;font-size:0.85rem;">${network} &bull; ${size} &bull; <strong style="color:#f7b500;">GH&#8373;${price.toFixed(2)}</strong></p>
+      <label style="display:block;margin-bottom:0.3rem;font-size:0.85rem;">Recipient Phone Number</label>
+      <input id="orderPhone" type="tel" placeholder="e.g. 0244123456" style="width:100%;padding:0.7rem;border-radius:8px;border:1px solid #2eb8ff40;background:#1a2230;color:#dce3ef;font-family:Poppins,sans-serif;font-size:0.95rem;margin-bottom:1rem;box-sizing:border-box;"/>
+      <label style="display:block;margin-bottom:0.3rem;font-size:0.85rem;">Payment Method</label>
+      <select id="orderPayment" style="width:100%;padding:0.7rem;border-radius:8px;border:1px solid #2eb8ff40;background:#1a2230;color:#dce3ef;font-family:Poppins,sans-serif;font-size:0.95rem;margin-bottom:1.4rem;box-sizing:border-box;">
+        <option value="paystack">💳 Pay with Paystack (MoMo / Card)</option>
+        <option value="wallet">👛 Pay from Wallet</option>
+      </select>
+      <button onclick="submitOrder('${network}','${size}',${price})" style="width:100%;padding:0.85rem;background:#f7b500;color:#1c1500;border:none;border-radius:9px;font-weight:700;font-size:1rem;cursor:pointer;font-family:Poppins,sans-serif;">
+        Confirm Order — GH&#8373;${price.toFixed(2)}
+      </button>
+    </div>`;
+
+  document.body.appendChild(modal);
+  document.getElementById('orderPhone').focus();
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+}
+
+// ─── SUBMIT ORDER ─────────────────────────────────────────────
+async function submitOrder(network, size, price) {
+  const phone   = document.getElementById('orderPhone')?.value.trim();
+  const payment = document.getElementById('orderPayment')?.value;
+
+  if (!phone || phone.length < 9) {
+    showDashToast('⚠️ Please enter a valid phone number', 'warn');
+    return;
+  }
+
+  const btn = document.querySelector('#orderModal button:last-child');
+  if (btn) { btn.disabled = true; btn.textContent = 'Processing...'; }
+
+  const networkMap = {
+    'MTN': 'MTN',
+    'AIRTELTIGO ISHARE':  'AirtelTigo-iShare',
+    'AIRTELTIGO BIGTIME': 'AirtelTigo-BigTime',
+    'TELECEL': 'Telecel'
+  };
+
+  try {
     const token = localStorage.getItem('authToken');
-    const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-
-    safeValue('profileName', agentData.name || '');
-    safeValue('profileEmail', agentData.email || '');
-    safeValue('profilePhone', agentData.phone || '');
-    safeValue('profileMtnSim', agentData.mtnSim || '');
-    safeValue('profileBank', agentData.bankAccount || '');
-
-    const fallbackId = Math.random().toString(36).substring(2, 9).toUpperCase();
-    safeValue('referralCode', `CEE${(agentData._id || fallbackId).substring(0, 7).toUpperCase()}`);
-
-    try {
-        const response = await fetch(API_URL + '/agents/stats', {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${token}` }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-                updateDashboardStats(data.stats);
-                return;
-            }
-        }
-    } catch (error) {
-        console.error('Error loading agent stats:', error);
-    }
-
-    updateDashboardStats({
-        totalCommission: 0,
-        totalSales: 0,
-        activeClients: 0,
-        monthlyEarnings: 0,
-        totalRevenue: 0,
-        withdrawnAmount: 0,
-        recentTransactions: [],
-        clients: []
+    const response = await fetch(`${API_URL}/bundles/purchase`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({
+        bundleId: 'static',
+        recipientPhone: phone,
+        network: networkMap[network] || network,
+        bundleSize: size,
+        price,
+        paymentMethod: payment
+      })
     });
+
+    const data = await response.json();
+    if (data.success) {
+      document.getElementById('orderModal')?.remove();
+      if (data.data?.authorizationUrl) {
+        window.location.href = data.data.authorizationUrl;
+      } else {
+        showDashToast('✅ Order placed! Bundle will be delivered shortly.', 'success');
+        loadAgentData();
+      }
+    } else {
+      showDashToast('❌ ' + (data.message || 'Order failed'), 'error');
+      if (btn) { btn.disabled = false; btn.textContent = `Confirm Order — GH\u20B3${price.toFixed(2)}`; }
+    }
+  } catch (err) {
+    document.getElementById('orderModal')?.remove();
+    showDashToast('⚠️ Backend not connected yet. Contact admin to process order.', 'warn');
+  }
 }
 
+// ─── LOAD AGENT DATA ──────────────────────────────────────────
+async function loadAgentData() {
+  const token     = localStorage.getItem('authToken');
+  const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+
+  safeValue('profileName',  agentData.name        || '');
+  safeValue('profileEmail', agentData.email       || '');
+  safeValue('profilePhone', agentData.phone       || '');
+  safeValue('profileMtnSim', agentData.mtnSim     || '');
+  safeValue('profileBank',  agentData.bankAccount || '');
+
+  const fallbackId = Math.random().toString(36).substring(2, 9).toUpperCase();
+  safeValue('referralCode', 'CEE' + (agentData._id || fallbackId).substring(0, 7).toUpperCase());
+
+  try {
+    const response = await fetch(`${API_URL}/agents/stats`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) { updateDashboardStats(data.stats); return; }
+    }
+  } catch (err) {}
+
+  updateDashboardStats({ totalCommission: 0, totalSales: 0, activeClients: 0, monthlyEarnings: 0, totalRevenue: 0, withdrawnAmount: 0, recentTransactions: [], clients: [] });
+}
+
+// ─── STATS ────────────────────────────────────────────────────
 function updateDashboardStats(stats) {
-    safeText('totalCommission', `GH₵ ${(stats.totalCommission || 0).toFixed(2)}`);
-    safeText('totalSales', stats.totalSales || 0);
-    safeText('activeClients', stats.activeClients || 0);
-    safeText('monthlyEarnings', `GH₵ ${(stats.monthlyEarnings || 0).toFixed(2)}`);
+  safeText('totalCommission',    'GH\u20B3 ' + (stats.totalCommission  || 0).toFixed(2));
+  safeText('totalSales',          stats.totalSales    || 0);
+  safeText('activeClients',       stats.activeClients || 0);
+  safeText('monthlyEarnings',    'GH\u20B3 ' + (stats.monthlyEarnings  || 0).toFixed(2));
+  safeText('salesCount',          (stats.totalSales   || 0) + ' bundles');
+  safeText('salesRevenue',       'GH\u20B3 ' + (stats.totalRevenue     || 0).toFixed(2));
+  safeText('salesCommission',    'GH\u20B3 ' + (stats.totalCommission  || 0).toFixed(2));
 
-    safeText('salesCount', (stats.totalSales || 0) + ' bundles');
-    safeText('salesRevenue', `GH₵ ${(stats.totalRevenue || 0).toFixed(2)}`);
-    safeText('salesCommission', `GH₵ ${(stats.totalCommission || 0).toFixed(2)}`);
+  const pending = (stats.totalCommission || 0) - (stats.withdrawnAmount || 0);
+  safeText('pendingPayout',      'GH\u20B3 ' + pending.toFixed(2));
+  safeText('pendingPayoutMirror','GH\u20B3 ' + pending.toFixed(2));
 
-    const pendingPayout = (stats.totalCommission || 0) - (stats.withdrawnAmount || 0);
-    safeText('pendingPayout', `GH₵ ${pendingPayout.toFixed(2)}`);
-    safeText('pendingPayoutMirror', `GH₵ ${pendingPayout.toFixed(2)}`);
-
-    populateTransactionsTable(stats.recentTransactions || []);
-    populateClientsTable(stats.clients || []);
+  populateTransactionsTable(stats.recentTransactions || []);
+  populateClientsTable(stats.clients || []);
 }
 
 function populateTransactionsTable(transactions) {
-    const table = document.getElementById('recentTransactions');
-    if (!table) return;
-    const tbody = table.querySelector('tbody');
-
-    if (transactions.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">No transactions yet.</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = transactions.map(tx => `
-        <tr>
-            <td>${new Date(tx.date).toLocaleDateString()}</td>
-            <td>${tx.bundleName || 'Bundle'}</td>
-            <td>GH₵ ${(tx.amount || 0).toFixed(2)}</td>
-            <td>GH₵ ${(tx.commission || 0).toFixed(2)}</td>
-        </tr>
-    `).join('');
+  const table = document.getElementById('recentTransactions');
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  tbody.innerHTML = transactions.length === 0
+    ? '<tr><td colspan="4" style="color:#8f9db2;padding:0.8rem;">No transactions yet.</td></tr>'
+    : transactions.map(tx => `<tr><td>${new Date(tx.date).toLocaleDateString()}</td><td>${tx.bundleName||tx.bundleSize||'Bundle'}</td><td>GH\u20B3 ${(tx.amount||0).toFixed(2)}</td><td>GH\u20B3 ${(tx.commission||0).toFixed(2)}</td></tr>`).join('');
 }
 
 function populateClientsTable(clients) {
-    const table = document.getElementById('clientsTable');
-    if (!table) return;
-    const tbody = table.querySelector('tbody');
-
-    if (clients.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">No clients yet.</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = clients.map(client => `
-        <tr>
-            <td>${client.name || 'Unknown'}</td>
-            <td>${client.phone || 'N/A'}</td>
-            <td>${client.totalPurchases || 0}</td>
-            <td>${new Date(client.dateAdded).toLocaleDateString()}</td>
-        </tr>
-    `).join('');
+  const table = document.getElementById('clientsTable');
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  tbody.innerHTML = clients.length === 0
+    ? '<tr><td colspan="4" style="color:#8f9db2;padding:0.8rem;">No clients yet.</td></tr>'
+    : clients.map(c => `<tr><td>${c.name||'Unknown'}</td><td>${c.phone||'N/A'}</td><td>${c.totalPurchases||0}</td><td>${new Date(c.dateAdded).toLocaleDateString()}</td></tr>`).join('');
 }
 
+// ─── VIEW SWITCHING ───────────────────────────────────────────
 function switchDashboardView(viewName, e) {
-    document.querySelectorAll('.dashboard-view').forEach(view => view.classList.remove('active'));
-    document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-
-    const view = document.getElementById(viewName);
-    if (view) view.classList.add('active');
-
-    if (e && e.currentTarget) e.currentTarget.classList.add('active');
+  document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+  const view = document.getElementById(viewName);
+  if (view) view.classList.add('active');
+  if (e && e.currentTarget) e.currentTarget.classList.add('active');
 }
 
+// ─── PROFILE UPDATE ───────────────────────────────────────────
 async function updateAgentProfile(e) {
-    e.preventDefault();
-
-    const token = localStorage.getItem('authToken');
-    const phone = document.getElementById('profilePhone')?.value;
-
-    if (!phone) {
-        alert('Please enter a phone number');
-        return;
+  e.preventDefault();
+  const phone = document.getElementById('profilePhone')?.value;
+  if (!phone) { showDashToast('Please enter a phone number', 'warn'); return; }
+  try {
+    const response = await fetch(`${API_URL}/agents/update-profile`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+      body: JSON.stringify({ phone })
+    });
+    const data = await response.json();
+    if (data.success) {
+      showDashToast('✅ Profile updated!', 'success');
+      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+      agentData.phone = phone;
+      localStorage.setItem('agentData', JSON.stringify(agentData));
+    } else {
+      showDashToast('Failed: ' + (data.message || 'Try again'), 'error');
     }
-
-    try {
-        const response = await fetch(API_URL + '/agents/update-profile', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({ phone })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            alert('Profile updated successfully!');
-            const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-            agentData.phone = phone;
-            localStorage.setItem('agentData', JSON.stringify(agentData));
-        } else {
-            alert('Failed to update profile: ' + (data.message || 'Try again'));
-        }
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        alert('Network error. Please try again.');
-    }
+  } catch { showDashToast('⚠️ Backend not connected yet.', 'warn'); }
 }
 
 function copyReferralCode() {
-    const code = document.getElementById('referralCode')?.value || '';
-    navigator.clipboard.writeText(code).then(() => {
-        alert('Referral code copied to clipboard!');
-    }).catch(() => {
-        alert('Failed to copy. Please try again.');
-    });
+  const code = document.getElementById('referralCode')?.value || '';
+  navigator.clipboard.writeText(code)
+    .then(() => showDashToast('✅ Referral code copied!', 'success'))
+    .catch(() => showDashToast('Copy failed', 'error'));
 }
 
+// ─── LOGOUT ───────────────────────────────────────────────────
 function logoutAgent(e) {
-    e.preventDefault();
-
-    if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('agentData');
-        window.location.href = 'index.html';
-    }
+  e.preventDefault();
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('agentData');
+    window.location.href = 'index.html';
+  }
 }
 
+// ─── DELETE ACCOUNT ───────────────────────────────────────────
 function deleteAccount() {
-    if (confirm('Are you sure? This action cannot be undone.') && confirm('This will permanently delete your account and all data. Are you REALLY sure?')) {
-        const token = localStorage.getItem('authToken');
-
-        fetch(API_URL + '/agents/delete-account', {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${token}` }
-        }).then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('agentData');
-                window.location.href = 'index.html';
-            } else {
-                alert('Failed to delete account');
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-            alert('Network error.');
-        });
-    }
+  if (!confirm('Permanently delete your account?')) return;
+  if (!confirm('FINAL WARNING — this cannot be undone.')) return;
+  fetch(`${API_URL}/agents/delete-account`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+  }).then(r => r.json()).then(data => {
+    if (data.success) { localStorage.clear(); window.location.href = 'index.html'; }
+    else showDashToast('Delete failed', 'error');
+  }).catch(() => showDashToast('⚠️ Backend not connected yet.', 'warn'));
 }
 
+// ─── PAYMENT RETURN ───────────────────────────────────────────
+function checkPaymentReturn() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('payment') === 'success') {
+    showDashToast('✅ Payment successful! Bundle delivering shortly.', 'success');
+    history.replaceState({}, '', window.location.pathname);
+    loadAgentData();
+  } else if (params.get('topup') === 'success') {
+    const amt = params.get('amount') || '';
+    showDashToast('✅ Wallet topped up' + (amt ? ' with GH\u20B3' + amt : '') + '!', 'success');
+    history.replaceState({}, '', window.location.pathname);
+    loadAgentData();
+  } else if (params.get('payment') === 'failed' || params.get('topup') === 'failed') {
+    showDashToast('❌ Payment was not completed.', 'error');
+    history.replaceState({}, '', window.location.pathname);
+  }
+}
+
+// ─── THEME ────────────────────────────────────────────────────
 function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeIcon(next);
 }
-
 function updateThemeIcon(theme) {
-    const btn = document.getElementById('themeBtn');
-    if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+  const btn = document.getElementById('themeBtn');
+  if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+function initTheme() {
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeIcon(saved);
 }
 
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
+// ─── TOAST ────────────────────────────────────────────────────
+function showDashToast(msg, type = 'success') {
+  let toast = document.getElementById('dashToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'dashToast';
+    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);padding:0.85rem 1.8rem;border-radius:30px;font-size:0.9rem;font-weight:600;z-index:99999;transition:transform 0.4s ease;font-family:Poppins,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.4);white-space:nowrap;';
+    document.body.appendChild(toast);
+  }
+  const colors = {
+    success: { bg: '#111620', border: '#20b7ff', color: '#20b7ff' },
+    warn:    { bg: '#2a1f00', border: '#f7b500', color: '#f7b500' },
+    error:   { bg: '#1f0a0a', border: '#ff6565', color: '#ff6565' }
+  };
+  const c = colors[type] || colors.success;
+  toast.style.background = c.bg;
+  toast.style.border = '1px solid ' + c.border;
+  toast.style.color = c.color;
+  toast.textContent = msg;
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(100px)'; }, 3500);
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────
+function safeText(id, value) {
+  const el = document.getElementById(id); if (el) el.textContent = value;
+}
+function safeValue(id, value) {
+  const el = document.getElementById(id); if (el) el.value = value;
 }
