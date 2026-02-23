@@ -38,7 +38,7 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: var(--dark-bg);
     color: var(--text-primary);
     overflow-x: hidden;
@@ -155,14 +155,26 @@ header {
 }
 
 .logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
     font-weight: 900;
     background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
     letter-spacing: 2px;
+}
+
+.nav-toggle {
+    display: none;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
 nav {
@@ -230,7 +242,7 @@ nav a:hover::after {
     cursor: pointer;
     font-size: 0.95rem;
     font-weight: 500;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     transition: all 0.3s;
 }
 
@@ -285,8 +297,8 @@ nav a:hover::after {
 }
 
 .hero h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 4.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
     font-weight: 900;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text-primary), var(--primary-cyan), var(--primary-purple));
@@ -306,7 +318,7 @@ nav a:hover::after {
 }
 
 .hero p {
-    font-size: 1.3rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto 3rem;
@@ -347,6 +359,24 @@ nav a:hover::after {
     box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
 }
 
+.network-badge.airteltigo {
+    border-color: rgba(32, 183, 255, 0.6);
+}
+
+.network-badge.airteltigo:hover {
+    border-color: #20b7ff;
+    box-shadow: 0 10px 30px rgba(32, 183, 255, 0.35);
+}
+
+.network-badge.telecel {
+    border-color: rgba(255, 77, 109, 0.55);
+}
+
+.network-badge.telecel:hover {
+    border-color: #ff4d6d;
+    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.35);
+}
+
 /* Data Bundles Section */
 .bundles-section {
     padding: 4rem 5%;
@@ -361,8 +391,8 @@ nav a:hover::after {
 }
 
 .section-header h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--primary-cyan), var(--text-primary));
     -webkit-background-clip: text;
@@ -416,8 +446,8 @@ nav a:hover::after {
 }
 
 .bundle-size {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
     -webkit-background-clip: text;
@@ -435,7 +465,7 @@ nav a:hover::after {
 }
 
 .bundle-price {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
     color: var(--accent-gold);
@@ -478,7 +508,7 @@ nav a:hover::after {
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Poppins', sans-serif;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -553,7 +583,7 @@ nav a:hover::after {
 }
 
 .feature-icon {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 1rem;
     animation: bounce 2s infinite;
 }
@@ -568,8 +598,8 @@ nav a:hover::after {
 }
 
 .feature-card h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
     margin-bottom: 1rem;
     color: var(--primary-cyan);
 }
@@ -644,8 +674,8 @@ nav a:hover::after {
 }
 
 .service-card h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
     margin-bottom: 1rem;
     color: var(--primary-cyan);
 }
@@ -680,7 +710,7 @@ nav a:hover::after {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .service-btn:hover {
@@ -690,6 +720,76 @@ nav a:hover::after {
 
 .service-btn:active {
     transform: scale(0.98);
+}
+
+
+.swipe-hint {
+    display: none;
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Utility Tools Section */
+.tools-section,
+.faq-section {
+    padding: 4rem 5%;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tool-card {
+    padding: 1.7rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    backdrop-filter: blur(8px);
+}
+
+.tool-card h3 {
+    color: var(--primary-cyan);
+    font-size: 1.25rem;
+}
+
+.tool-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.faq-list {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+}
+
+.faq-item summary {
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.faq-item p {
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
 }
 
 /* Footer */
@@ -714,7 +814,7 @@ footer p {
 
 .social-links a {
     color: var(--text-secondary);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     transition: all 0.3s;
 }
 
@@ -724,34 +824,206 @@ footer p {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+    .hero h1 {
+        font-size: 2.6rem;
+    }
+
+    nav {
+        gap: 1.1rem;
+    }
+
+    .login-btn {
+        padding: 0.6rem 1.3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 4%;
+    }
+
+    .logo {
+        font-size: 1.35rem;
+        justify-self: start;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: start;
+        grid-column: 1 / 2;
+        order: 2;
+    }
+
+    nav {
+        grid-column: 1 / -1;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+        background: rgba(8, 12, 20, 0.98);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 0.85rem;
+    }
+
+    nav.show {
+        display: flex;
+    }
+
+    nav a,
+    .language-select,
+    .theme-btn,
+    .login-btn {
+        width: 100%;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .hero {
+        padding: 5.5rem 4% 2.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1.05rem;
+        max-width: 95%;
+    }
+
+    .network-badges {
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .network-badge {
+        font-size: 0.95rem;
+        padding: 0.65rem 1rem;
+    }
+
+    .features-grid,
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+
+    .section-header h2 {
+        font-size: 1.35rem;
+    }
+}
+
 @media (max-width: 768px) {
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 1.35rem;
+        line-height: 1.25;
     }
 
     .network-badges {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
 
-    .bundles-grid {
+    .bundles-grid,
+    .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    .swipe-hint {
+        display: block;
     }
 
     .services-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        overflow-x: auto;
+        gap: 0.9rem;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
     }
 
-    nav {
-        gap: 1rem;
+    .services-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .services-grid::-webkit-scrollbar-thumb {
+        background: rgba(0, 240, 255, 0.35);
+        border-radius: 999px;
+    }
+
+    .service-card {
+        flex: 0 0 84%;
+        max-width: 84%;
+        scroll-snap-align: start;
+    }
+
+    .bundle-card,
+    .feature-card,
+    .service-card,
+    .tool-card {
+        padding: 1.25rem;
+    }
+
+    .faq-item {
+        padding: 0.9rem;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
     }
 
     .section-header h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .modal-content {
-        width: 90%;
+        width: calc(100% - 1.2rem);
+        margin: 0.6rem;
+        padding: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding-top: 4.7rem;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    nav {
+        gap: 0.45rem;
+        padding: 0.7rem;
+    }
+
+    nav a {
+        font-size: 0.82rem;
+        padding: 0.5rem 0.4rem;
+    }
+
+    .language-select,
+    .theme-btn,
+    .login-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .network-badge {
+        width: 100%;
+        text-align: center;
+    }
+
+    .service-card {
+        flex-basis: 90%;
+        max-width: 90%;
     }
 }
 
@@ -807,7 +1079,7 @@ footer p {
 }
 
 .modal-content h2 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: var(--primary-cyan);
     margin-bottom: 1.5rem;
     text-align: center;
@@ -826,7 +1098,7 @@ footer p {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     color: var(--text-primary);
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.95rem;
     transition: all 0.3s;
 }
@@ -858,7 +1130,7 @@ footer p {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .modal-btn:hover {
@@ -883,4 +1155,87 @@ footer p {
 
 .close:hover {
     color: var(--primary-cyan);
+}
+
+/* ===== LOCKED PRICE (login required) ===== */
+.bundle-price-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.bundle-price-wrapper .price-blur {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+}
+
+.bundle-price-wrapper .lock-badge {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.75);
+    border: 1px solid var(--primary-cyan);
+    border-radius: 8px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    color: var(--primary-cyan);
+    white-space: nowrap;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Agent status bar */
+.agent-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.55rem 1.5rem;
+    background: rgba(0, 255, 136, 0.08);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 30px;
+    color: var(--success-green);
+    font-size: 0.88rem;
+    font-weight: 600;
+    max-width: fit-content;
+    margin: 0 auto 1.5rem;
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.agent-status-bar button {
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 0;
+}
+
+.agent-status-bar button:hover {
+    color: #ff4444;
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card-bg);
+    border: 1px solid var(--primary-cyan);
+    color: var(--text-primary);
+    padding: 0.85rem 2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    transition: transform 0.4s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
 }
