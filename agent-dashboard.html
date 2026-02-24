@@ -11,6 +11,9 @@
 <body>
 <div class="agent-layout">
 
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
   <!-- ═══ SIDEBAR ═══ -->
   <aside class="agent-sidebar">
     <div class="brand-area">
@@ -36,6 +39,7 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
         <h2 id="pageTitle">Dashboard</h2>
         <span id="agentName">Agent</span>
       </div>

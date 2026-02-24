@@ -343,40 +343,54 @@ body {
 }
 
 @media (max-width: 1024px) {
+    /* Sidebar becomes a slide-in drawer — hamburger activates it */
     .agent-layout {
         grid-template-columns: 1fr;
     }
 
-    .agent-sidebar {
-        border-right: none;
-        border-bottom: 1px solid #2b3344;
+    .sidebar-toggle {
+        display: inline-flex !important;
     }
 
+    .agent-sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 260px;
+        height: 100vh;
+        z-index: 300;
+        border-right: 1px solid #2b3344;
+        border-bottom: none;
+        transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+    }
+
+    .agent-sidebar.open {
+        left: 0;
+        box-shadow: 6px 0 32px rgba(0,0,0,0.55);
+    }
+
+    /* Menu stays as vertical list inside the drawer */
     .menu-list {
-        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        grid-template-columns: 1fr;
     }
 
     .logout-btn {
-        margin-top: 0.3rem;
+        margin-top: auto;
     }
 
     .topbar {
         height: auto;
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 0.85rem;
+        padding: 0.85rem 1rem;
     }
 
     .topbar-left {
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        gap: 0.6rem;
     }
 
     .topbar-right {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 0.45rem;
+        gap: 0.4rem;
+        flex-wrap: wrap;
     }
 
     .top-action,
@@ -1048,4 +1062,250 @@ body {
   .net-bar-row { grid-template-columns: 100px 1fr 40px; font-size: 0.78rem; }
   .page-header { flex-direction: column; }
   .support-cards { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════
+   DASHBOARD HAMBURGER + RESPONSIVE SIDEBAR
+══════════════════════════════════════════════ */
+
+/* Hamburger button — hidden on desktop */
+.sidebar-toggle {
+    display: none;
+    background: #1a2535;
+    border: 1px solid #2b3344;
+    color: #e8edf7;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+.sidebar-toggle:hover { background: #20b7ff; color: #03111a; }
+
+/* Overlay that dims content when sidebar is open on mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+}
+.sidebar-overlay.show { display: block; }
+
+/* ── Show hamburger and convert sidebar at ≤900px ── */
+@media (max-width: 900px) {
+    .sidebar-toggle {
+        display: inline-flex;
+    }
+
+    /* Sidebar slides in from left as a fixed drawer */
+    .agent-sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 260px;
+        height: 100vh;
+        z-index: 300;
+        transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+        box-shadow: none;
+    }
+
+    .agent-sidebar.open {
+        left: 0;
+        box-shadow: 6px 0 32px rgba(0,0,0,0.5);
+    }
+
+    /* Layout becomes single column, main takes full width */
+    .agent-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .agent-main {
+        width: 100%;
+    }
+
+    /* Topbar adjusts for hamburger */
+    .topbar {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+    }
+
+    .topbar-left {
+        gap: 0.6rem;
+    }
+
+    .topbar-left h2 {
+        font-size: 1.1rem;
+    }
+
+    /* Page content padding */
+    .page-wrap {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar-right {
+        gap: 0.3rem;
+        flex-wrap: wrap;
+    }
+
+    .top-action, .top-secondary {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.7rem;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+
+    .stat-val { font-size: 1rem; }
+    .stat-lbl { font-size: 0.72rem; }
+    .stat-icon { font-size: 1.4rem; }
+
+    .wallet-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rank-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .support-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .wc-amount { font-size: 1.4rem; }
+
+    .data-table th, .data-table td {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .code-block pre {
+        font-size: 0.75rem;
+    }
+
+    .faq-item summary { font-size: 0.85rem; }
+    .faq-item p { font-size: 0.8rem; }
+}
+
+/* ══════════════════════════════════════════════
+   DASHBOARD LIGHT MODE — Override CSS variables
+   so every element that uses var(--bg), var(--panel),
+   var(--text), var(--muted), var(--line) etc. 
+   automatically flips without needing per-element rules.
+══════════════════════════════════════════════ */
+
+:root[data-theme="light"] {
+    --bg:     #f0f4f8;
+    --panel:  #ffffff;
+    --panel-2:#f5f8fc;
+    --line:   rgba(0,0,0,0.1);
+    --text:   #1a2233;
+    --muted:  #5a6a82;
+    --cyan:   #0099bb;
+    --yellow: #c8930a;
+}
+
+/* Sidebar specific (uses its own gradient) */
+:root[data-theme="light"] .agent-sidebar {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
+    border-right-color: rgba(0,0,0,0.08);
+}
+
+:root[data-theme="light"] .menu-item {
+    color: #334155;
+}
+
+:root[data-theme="light"] .menu-item.active,
+:root[data-theme="light"] .menu-item:hover {
+    background: #0099bb;
+    color: #fff;
+}
+
+:root[data-theme="light"] .logout-btn {
+    color: #555;
+    border-color: rgba(0,0,0,0.12);
+    background: transparent;
+}
+
+:root[data-theme="light"] .logout-btn:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+/* Topbar */
+:root[data-theme="light"] .topbar {
+    background: rgba(255,255,255,0.97);
+    border-bottom-color: rgba(0,0,0,0.08);
+}
+
+:root[data-theme="light"] .sidebar-toggle {
+    background: #e8eef5;
+    border-color: rgba(0,0,0,0.12);
+    color: #334155;
+}
+:root[data-theme="light"] .sidebar-toggle:hover { background: #0099bb; color: #fff; }
+
+:root[data-theme="light"] .theme-btn {
+    background: #e8eef5;
+    border-color: rgba(0,0,0,0.12);
+    color: #334155;
+}
+
+:root[data-theme="light"] .top-action    { background: #0099bb; color: #fff; }
+:root[data-theme="light"] .top-secondary {
+    background: #e8eef5;
+    border-color: rgba(0,0,0,0.12);
+    color: #334155;
+}
+
+/* Wallet main balance card */
+:root[data-theme="light"] .wallet-card.main-balance {
+    background: linear-gradient(135deg, #e0f5ff, #f0f8ff);
+    border-color: #0099bb;
+}
+
+/* Network tab active */
+:root[data-theme="light"] .network-tab.active {
+    background: #0099bb;
+    color: #fff;
+    border-color: #0099bb;
+}
+
+/* Table hover */
+:root[data-theme="light"] .data-table tr:hover td { background: #f0f8ff; }
+
+/* Danger zone */
+:root[data-theme="light"] .danger-zone {
+    background: #fff5f5;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+:root[data-theme="light"] .danger-zone p { color: #b91c1c; }
+
+/* Code blocks */
+:root[data-theme="light"] .code-block { background: #f8f9fa; }
+:root[data-theme="light"] .code-block pre { color: #005577; }
+:root[data-theme="light"] .code-tab.active { background: #fff; color: #0099bb; }
+
+/* Referral box */
+:root[data-theme="light"] .referral-box { background: #f0f9ff; border-color: rgba(0,153,187,0.3); }
+
+/* Mobile sidebar in light mode */
+:root[data-theme="light"] .agent-sidebar.open {
+    box-shadow: 6px 0 32px rgba(0,0,0,0.15);
 }

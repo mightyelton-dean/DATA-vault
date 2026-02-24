@@ -279,13 +279,7 @@ function populateClientsTable(clients) {
 }
 
 // ─── VIEW SWITCHING ───────────────────────────────────────────
-function switchDashboardView(viewName, e) {
-  document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-  const view = document.getElementById(viewName);
-  if (view) view.classList.add('active');
-  if (e && e.currentTarget) e.currentTarget.classList.add('active');
-}
+// switchDashboardView — defined later in sidebar section
 
 // ─── PROFILE UPDATE ───────────────────────────────────────────
 async function updateAgentProfile(e) {
@@ -360,21 +354,90 @@ function checkPaymentReturn() {
 
 // ─── THEME ────────────────────────────────────────────────────
 function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
   const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  updateThemeIcon(next);
+  applyTheme(next);
 }
+
+function setTheme(theme) {
+  applyTheme(theme);
+  showDashToast((theme === 'dark' ? '🌙 Dark' : '☀️ Light') + ' mode activated', 'success');
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  updateThemeIcon(theme);
+}
+
 function updateThemeIcon(theme) {
-  const btn = document.getElementById('themeBtn');
-  if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+  // Update all theme buttons on the page
+  document.querySelectorAll('#themeBtn, .theme-btn').forEach(btn => {
+    btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+  });
 }
+
 function initTheme() {
   const saved = localStorage.getItem('theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-  updateThemeIcon(saved);
+  applyTheme(saved);
 }
+// ─── SIDEBAR (mobile hamburger) ───────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.querySelector('.agent-sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const btn = document.getElementById('sidebarToggle');
+  const isOpen = sidebar.classList.toggle('open');
+  overlay.classList.toggle('show', isOpen);
+  if (btn) btn.innerHTML = isOpen ? '✕' : '☰';
+  // Prevent body scroll while sidebar open on mobile
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeSidebar() {
+  const sidebar = document.querySelector('.agent-sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const btn = document.getElementById('sidebarToggle');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  if (btn) btn.innerHTML = '☰';
+  document.body.style.overflow = '';
+}
+
+// Close sidebar when a menu item is clicked on mobile
+function switchDashboardView(view, e) {
+  if (e) e.preventDefault();
+  if (window.innerWidth <= 900) closeSidebar();
+
+  // Update active menu item
+  document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+  const active = document.querySelector(`.menu-item[onclick*="'${view}'"]`);
+  if (active) active.classList.add('active');
+
+  // Update page title
+  const titles = {
+    dashboard: '🏠 Dashboard', orders: '📦 Orders', wallet: '💼 Wallet',
+    afa: '👥 AFA Program', store: '🛒 My Store', settings: '⚙️ Settings',
+    developer: '💻 Developer', support: '❓ Support'
+  };
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) titleEl.textContent = titles[view] || 'Dashboard';
+
+  // Hide all sections, show selected
+  document.querySelectorAll('.dashboard-view').forEach(el => el.classList.remove('active'));
+  const target = document.getElementById(view);
+  if (target) {
+    target.classList.add('active');
+    // Lazy-load page data
+    if (view === 'orders')    loadOrdersPage();
+    if (view === 'wallet')    loadWalletPage();
+    if (view === 'afa')       loadAfaPage();
+    if (view === 'store')     loadStorePage();
+    if (view === 'settings')  loadSettingsPage();
+    if (view === 'developer') loadDevPage();
+  }
+}
+
+
 
 // ─── TOAST ────────────────────────────────────────────────────
 function showDashToast(msg, type = 'success') {
@@ -637,12 +700,7 @@ function loadSettingsPage() {
   safeValue('referralCode', code);
 }
 
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  updateThemeIcon(theme);
-  showDashToast(`${theme === 'dark' ? '🌙 Dark' : '☀️ Light'} mode activated`, 'success');
-}
+// setTheme defined above in theme section
 
 async function changePassword(e) {
   e.preventDefault();
